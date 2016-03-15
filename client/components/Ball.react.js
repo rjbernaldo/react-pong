@@ -1,30 +1,36 @@
 import React, { Component } from 'react';
 
 class Ball extends Component {
-    constructor() {
+    constructor(args) {
         super();
 
         this.x = window.innerWidth / 2;
         this.xForward = true;
 
         this.y = window.innerHeight / 2;
-        this.yForward = true;
+        this.yUp = true;
+
+        this.collisionHandler = args.collisionHandler;
     }
 
     move() {
-        if (0 < this.x - 15 && this.x + 10 < window.innerWidth) {
-            this.xForward ? this.x += 10 : this.x -= 10;
-        } else {
-            this.xForward ? this.x -= 10 : this.x += 10;
-            this.xForward = !this.xForward;
-        }
+        this.collisionHandler(this.x, this.y, (withinXBounds, withinYBounds) => {
+            if (withinXBounds) {
+                this.xForward ? this.x += 10 : this.x -= 10;
+            } else {
+                this.xForward ? this.x -= 10 : this.x += 10;
+                this.xForward = !this.xForward;
+            }
 
-        if (0 < this.y - 10 && this.y + 10 < window.innerHeight) {
-            this.yForward ? this.y += 10 : this.y -= 10;
-        } else {
-            this.yForward ? this.y -= 10 : this.y += 10;
-            this.yForward = !this.yForward;
-        }
+            if (withinYBounds) {
+                // move down
+                this.yUp ? this.y += 10 : this.y -= 10;
+            } else {
+                // move up
+                this.yUp ? this.y -= 10 : this.y += 10;
+                this.yUp = !this.yUp;
+            }
+        });
     }
 
     draw(context) {
