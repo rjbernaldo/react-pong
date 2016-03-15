@@ -44,7 +44,6 @@ class Ball extends Component {
     }
 
     render() {
-        // this feels wrong...
         return (
             <span></span>
         )

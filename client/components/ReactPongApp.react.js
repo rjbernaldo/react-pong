@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
 import Ball from './Ball.react';
+import Paddle from './Paddle.react';
 
 class ReactPongApp extends Component {
 	constructor() {
 		super();
+
+		this.paddle1 = {
+			x: null,
+			y: null
+		};
+		this.paddle2 = {
+			x: null,
+			y: null
+		};
 
 		this.state = {
 			screenWidth: 0,
@@ -29,9 +39,19 @@ class ReactPongApp extends Component {
 	start() {
 		let ball = new Ball();
 
+		let paddle1 = new Paddle({
+			control: 'human',
+			movementHandler: (x, y) => {
+				this.paddle1.x = x;
+				this.paddle1.y = y;
+			}
+		});
+
+		// let aiPaddle = new Paddle({ control: 'ai' });
+
 		this.setState({
 			score: 0,
-			objects: [ball]
+			objects: [ball, paddle1]
 		});
 
 		requestAnimationFrame(() => {
@@ -59,12 +79,10 @@ class ReactPongApp extends Component {
 	render() {
 		return (
 			<div>
-				<canvas ref="canvas" width={ this.state.screenWidth } height={ this.state.screenHeight }>
-					<Ball screenWidth={ this.state.screenWidth } screenHeight={ this.state.screenHeight }/>
-				</canvas>
+				<canvas ref="canvas" width={ this.state.screenWidth } height={ this.state.screenHeight }></canvas>
 			</div>
 		);
 	}
 }
 
-export default ReactPongApp
+export default ReactPongApp;
