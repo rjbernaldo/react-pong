@@ -8,7 +8,7 @@ module.exports = {
 	output: {
 		path: __dirname + '/client/public/dist',
 		filename: 'bundle.js',
-		publicPath: '/public/dist'
+		publicPath: '/'
 	},
 	stats: {
 		colors: true,

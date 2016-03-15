@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Ball from './Ball.react';
 
-export class ReactPong extends Component {
+class ReactPongApp extends Component {
 	constructor() {
 		super();
 
@@ -15,10 +15,12 @@ export class ReactPong extends Component {
 	}
 
 	componentDidMount() {
+		let context = this.refs.canvas.getContext('2d');
+
 		this.setState({
 			screenWidth: window.innerWidth,
 			screenHeight: window.innerHeight,
-			context: this.refs.canvas.getContext('2d');
+			context: context
 		});
 
 		this.start();
@@ -29,7 +31,7 @@ export class ReactPong extends Component {
 
 		this.setState({
 			score: 0,
-			objects: [paddle1]
+			objects: [ball]
 		});
 
 		requestAnimationFrame(() => {
@@ -45,9 +47,9 @@ export class ReactPong extends Component {
 		context.fillRect(0, 0, this.state.screenWidth, this.state.screenHeight);
 		context.globalAlpha = 1;
 
-		for(obj of this.state.objects) {
+		this.state.objects.forEach((obj) => {
 			obj.draw(this.state);
-		}
+		});
 
 		requestAnimationFrame(() => {
 			this.update();
@@ -64,3 +66,5 @@ export class ReactPong extends Component {
 		);
 	}
 }
+
+export default ReactPongApp

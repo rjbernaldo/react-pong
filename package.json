@@ -7,7 +7,7 @@
     "clean": "rimraf client/public",
     "test": "node_modules/jest-cli/bin/jest.js --verbose",
     "build": "npm run clean && node_modules/webpack/bin/webpack.js",
-    "start": "node server"
+    "start": "http-server client/public/dist"
   },
   "repository": {
     "type": "git",
@@ -32,9 +32,11 @@
     "jest-cli": "^0.8.2",
     "react-addons-test-utils": "^0.14.7",
     "rimraf": "^2.5.2",
-    "webpack": "^1.12.14"
+    "webpack": "^1.12.14",
+    "http-server": ""
   },
   "dependencies": {
+    "http-server": "^0.9.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7"
   },

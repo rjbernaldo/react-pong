@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 
-export class Ball extends Component {
+class Ball extends Component {
     constructor() {
         super();
 
-        this.state = {
-            x: 0,
-            y: 0
-        }
+        this.x = 0;
+        this.y = 0;
+        // this.state = {
+        //     x: 0,
+        //     y: 0
+        // }
     }
 
     componentDidMount() {
@@ -20,24 +22,29 @@ export class Ball extends Component {
     }
 
     move() {
-        this.setState({
-            x: this.state.x + 1,
-            y: this.state.y + 1
-        })
-
-        this.move();
+        let bounce = this.x
+        if ()
+        this.x+=10;
+        this.y+=10;
     }
 
     draw(state) {
+        // this.move();
+
         let context = state.context;
-        let x = this.state.x;
-        let y = this.state.y;
+        let x = this.x;
+        let y = this.y;
         let radius = 5;
         let startAngle = 0;
-        let endAngle = 0;
+        let endAngle = 2 * Math.PI;
 
         context.beginPath();
-        context.arc(x, y, radius, startAngle, endAngle);
+        context.arc(x, y, radius, startAngle, endAngle, false);
+        // context.fillStyle = 'white';
+        // context.fill();
+        context.lineWidth = 1;
+        context.strokeStyle = 'white';
+        context.stroke();
     }
 
     render() {
@@ -47,3 +54,5 @@ export class Ball extends Component {
         )
     }
 }
+
+export default Ball;

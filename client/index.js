@@ -1,5 +1,5 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var FeatureRequestApp = require('./components/FeatureRequestApp.react');
+import React from 'react';
+import ReactDOM, { render } from 'react-dom';
+import ReactPongApp from './components/ReactPongApp.react';
 
-ReactDOM.render(<FeatureRequestApp />, document.getElementById('content'));
+render(<ReactPongApp />, document.getElementById('content'));
