@@ -4,15 +4,14 @@ Classic Pong game built using ES6, React.js, & HTML5 canvas.
 
 Purpose of this project is to familiarize myself with ES6 while at the same time play around with the concept of canvas rendering using React components.
 
+[http://rjbernaldo.github.io/react-pong](http://rjbernaldo.github.io/react-pong)
+
 ### Controls
 
 [&uarr;] Move paddle up
 
 [&darr;] Move paddle down
 
-### Demo
-
-[http://rjbernaldo.github.io/react-pong](http://rjbernaldo.github.io/react-pong)
 
 ### Notes
 
