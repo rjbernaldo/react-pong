@@ -6,25 +6,9 @@ class Paddle extends Component {
 
         this.x = 0;
         this.y = args.clientHeight / 2;
-
         this.clientHeight = args.clientHeight;
-
-        if (args.control === 'human') {
-            this.x = 50;
-            window.addEventListener('keydown', this.keysHandler.bind(this));
-        }
-    }
-
-    keysHandler(value, e) {
-        switch(value.keyCode) {
-            case 38:
-                this.move('up')
-                break;
-
-            case 40:
-                this.move('down');
-                break;
-        }
+        args.control === 'human' ? this.x = 50 : this.x = args.clientWidth - 60;
+        args.movementHandler ? args.movementHandler(this.move.bind(this)) : null;
     }
 
     move(direction) {

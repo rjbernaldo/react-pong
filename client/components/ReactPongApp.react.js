@@ -32,7 +32,27 @@ class ReactPongApp extends Component {
 
 		this.paddle1 = new Paddle({
 			clientHeight: this.clientHeight,
+			clientWidth: this.clientWidth,
+			movementHandler: (handler) => {
+				window.addEventListener('keydown', (value, e) => {
+			        switch(value.keyCode) {
+			            case 38:
+			                handler('up')
+			                break;
+
+			            case 40:
+			                handler('down');
+			                break;
+			        }
+				});
+			},
 			control: 'human'
+		});
+
+		this.paddle2 = new Paddle({
+			clientHeight: this.clientHeight,
+			clientWidth: this.clientWidth,
+			control: 'ai'
 		});
 
 		this.setState({
@@ -52,7 +72,10 @@ class ReactPongApp extends Component {
 		let withinPaddle1Y = this.paddle1.y < y && y < this.paddle1.y + 100;
 		let hitPaddle1 = hitPaddle1X && withinPaddle1Y;
 
-		let hitPaddle2;
+		let hitPaddle2X = x > this.paddle2.x - 0;
+		let withinPaddle2Y = this.paddle2.y < y && y < this.paddle2.y + 100;
+		let hitPaddle2 = hitPaddle2X && withinPaddle2Y;
+
 		let hitLeftWall = x < 0 + 10;
 		let hitRightWall = x > this.clientWidth - 10;
 
@@ -62,6 +85,8 @@ class ReactPongApp extends Component {
 	update() {
 		const context = this.context;
 
+		this.paddle2.y = this.ball.y - 50;
+
 		context.fillStyle = '#000000';
 		context.globalAlpha = 0.5;
 		context.fillRect(0, 0, this.clientWidth, this.clientHeight);
@@ -69,6 +94,7 @@ class ReactPongApp extends Component {
 
 		this.ball.draw(this.context);
 		this.paddle1.draw(this.context);
+		this.paddle2.draw(this.context);
 
 		requestAnimationFrame(() => {
 			this.update();
