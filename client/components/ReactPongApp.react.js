@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import Ball from './Ball.react';
 import Paddle from './Paddle.react';
+import Menu from './Menu.react';
+import Scoreboard from './Scoreboard.react';
 
 class ReactPongApp extends Component {
 	constructor() {
 		super();
 
 		this.state = {
-			score: null
+			score: null,
+			inGame: false,
+			player1Score: 0,
+			player2Score: 0
 		};
 	}
 
@@ -17,17 +22,41 @@ class ReactPongApp extends Component {
 		this.context = context;
 		this.clientWidth = document.documentElement.clientWidth;
 		this.clientHeight = document.documentElement.clientHeight;
-
-		this.start();
 	}
 
-	start() {
+	hitRightWall() {
+		var newScore = this.state.player1Score += 1;
+
+		this.setState({
+			player1Score: newScore
+		});
+
+		this.reinitialize();
+	}
+
+	hitLeftWall() {
+		var newScore = this.state.player2Score += 1;
+
+		this.setState({
+			player2Score: newScore
+		});
+
+		this.reinitialize();
+	}
+
+	reinitialize() {
+		this.ball.reinitialize();
+	}
+
+	startGame() {
 		this.ball = new Ball({
 			clientWidth: this.clientWidth,
 			clientHeight: this.clientHeight,
 			collisionHandler: (x, y, done) => {
 				this.collisionHandler(x, y, done);
-			}
+			},
+			hitRightWall: this.hitRightWall.bind(this),
+			hitLeftWall: this.hitLeftWall.bind(this)
 		});
 
 		this.paddle1 = new Paddle({
@@ -56,7 +85,8 @@ class ReactPongApp extends Component {
 		});
 
 		this.setState({
-			score: 0
+			score: 0,
+			inGame: true
 		});
 
 		requestAnimationFrame(() => {
@@ -68,7 +98,7 @@ class ReactPongApp extends Component {
 		let hitUpperWall = y < 0 + 10;
 		let hitLowerWall = y > this.clientHeight - 10;
 
-		let hitPaddle1X = x < this.paddle1.x + 20;
+		let hitPaddle1X = x < this.paddle1.x + 20 && x > this.paddle1.x + 10;
 		let withinPaddle1Y = this.paddle1.y < y && y < this.paddle1.y + 100;
 		let hitPaddle1 = hitPaddle1X && withinPaddle1Y;
 
@@ -96,14 +126,19 @@ class ReactPongApp extends Component {
 		this.paddle1.draw(this.context);
 		this.paddle2.draw(this.context);
 
-		requestAnimationFrame(() => {
-			this.update();
-		});
+		if (this.state.inGame) {
+			requestAnimationFrame(() => {
+				this.update();
+			});
+		}
 	}
 
 	render() {
 		return (
 			<div>
+				<div className="outer">
+							{ this.state.inGame ? <Scoreboard className="center" player1Score={ this.state.player1Score } player2Score={ this.state.player2Score }/> : <Menu startGame={ this.startGame.bind(this) } className="center" /> }
+				</div>
 				<canvas ref="canvas" width={ this.clientWidth } height={ this.clientHeight }></canvas>
 			</div>
 		);
