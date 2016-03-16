@@ -4,10 +4,13 @@ class Paddle extends Component {
     constructor(args) {
         super();
 
-        this.x = 50;
-        this.y = window.innerHeight / 2;
+        this.x = 0;
+        this.y = args.clientHeight / 2;
+
+        this.clientHeight = args.clientHeight;
 
         if (args.control === 'human') {
+            this.x = 50;
             window.addEventListener('keydown', this.keysHandler.bind(this));
         }
     }
@@ -25,7 +28,7 @@ class Paddle extends Component {
     }
 
     move(direction) {
-        if (direction === 'down' && this.y + 110 < window.innerHeight) {
+        if (direction === 'down' && this.y + 110 < this.clientHeight) {
             this.y += 20;
         } else if (direction === 'up' && 0 < this.y - 10) {
             this.y -= 20;

@@ -4,11 +4,8 @@ class Ball extends Component {
     constructor(args) {
         super();
 
-        this.x = window.innerWidth / 2;
-        this.xForward = true;
-
-        this.y = window.innerHeight / 2;
-        this.yUp = true;
+        this.x = args.clientWidth / 2;
+        this.y = args.clientHeight / 2;
 
         this.speed = 10;
         this.xMovement = this.speed;
@@ -30,30 +27,15 @@ class Ball extends Component {
             } else if (hitPaddle2) {
                 this.xMovement = 0 - this.speed;
             } else if (hitLeftWall) {
-                // alert('left wins');
+                console.log('right wins');
                 this.xMovement = 0 + this.speed;
             } else if (hitRightWall) {
-                // alert('right wins');
+                console.log('left wins');
                 this.xMovement = 0 - this.speed;
             }
 
             this.x += this.xMovement;
             this.y += this.yMovement;
-            // if (withinXBounds) {
-            //     this.xForward ? this.x += 10 : this.x -= 10;
-            // } else if (bounce) {
-            //     this.xForward ? this.x -= 10 : this.x += 10;
-            //     this.xForward = !this.xForward;
-            // }
-            //
-            // if (withinYBounds) {
-            //     // move down
-            //     this.yUp ? this.y += 10 : this.y -= 10;
-            // } else {
-            //     // move up
-            //     this.yUp ? this.y -= 10 : this.y += 10;
-            //     this.yUp = !this.yUp;
-            // }
         });
     }
 
