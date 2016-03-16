@@ -8,9 +8,9 @@ Purpose of this project is to familiarize myself with ES6 while at the same time
 
 ** Controls **
 
-[^] (Arrow up) Move paddle up
+&uarr; - Move paddle up
 
-[v] (Arrow down) Move paddle down
+&darr; - Move paddle down
 
 ** Notes **
 
