@@ -25,7 +25,7 @@ class Paddle extends Component {
     }
 
     move(direction) {
-        if (direction === 'down' && this.y + 10 < window.innerHeight) {
+        if (direction === 'down' && this.y + 110 < window.innerHeight) {
             this.y += 20;
         } else if (direction === 'up' && 0 < this.y - 10) {
             this.y -= 20;
