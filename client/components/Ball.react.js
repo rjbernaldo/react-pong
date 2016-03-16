@@ -10,26 +10,50 @@ class Ball extends Component {
         this.y = window.innerHeight / 2;
         this.yUp = true;
 
-        this.collisionHandler = args.collisionHandler;
+        this.speed = 10;
+        this.xMovement = this.speed;
+        this.yMovement = this.speed;
+
+        this.state = {
+            collisionHandler: args.collisionHandler
+        };
     }
 
     move() {
-        this.collisionHandler(this.x, this.y, (withinXBounds, withinYBounds) => {
-            if (withinXBounds) {
-                this.xForward ? this.x += 10 : this.x -= 10;
-            } else {
-                this.xForward ? this.x -= 10 : this.x += 10;
-                this.xForward = !this.xForward;
+        this.state.collisionHandler(this.x, this.y, (hitUpperWall, hitLowerWall, hitPaddle1, hitPaddle2, hitLeftWall, hitRightWall) => {
+            if (hitUpperWall) {
+                this.yMovement = 0 + this.speed;
+            } else if (hitLowerWall) {
+                this.yMovement = 0 - this.speed;
+            } else if (hitPaddle1) {
+                this.xMovement = 0 + this.speed;
+            } else if (hitPaddle2) {
+                this.xMovement = 0 - this.speed;
+            } else if (hitLeftWall) {
+                // alert('left wins');
+                this.xMovement = 0 + this.speed;
+            } else if (hitRightWall) {
+                // alert('right wins');
+                this.xMovement = 0 - this.speed;
             }
 
-            if (withinYBounds) {
-                // move down
-                this.yUp ? this.y += 10 : this.y -= 10;
-            } else {
-                // move up
-                this.yUp ? this.y -= 10 : this.y += 10;
-                this.yUp = !this.yUp;
-            }
+            this.x += this.xMovement;
+            this.y += this.yMovement;
+            // if (withinXBounds) {
+            //     this.xForward ? this.x += 10 : this.x -= 10;
+            // } else if (bounce) {
+            //     this.xForward ? this.x -= 10 : this.x += 10;
+            //     this.xForward = !this.xForward;
+            // }
+            //
+            // if (withinYBounds) {
+            //     // move down
+            //     this.yUp ? this.y += 10 : this.y -= 10;
+            // } else {
+            //     // move up
+            //     this.yUp ? this.y -= 10 : this.y += 10;
+            //     this.yUp = !this.yUp;
+            // }
         });
     }
 

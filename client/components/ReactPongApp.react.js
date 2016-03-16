@@ -6,21 +6,11 @@ class ReactPongApp extends Component {
 	constructor() {
 		super();
 
-		this.paddle1 = {
-			x: null,
-			y: null
-		};
-		this.paddle2 = {
-			x: null,
-			y: null
-		};
-
 		this.state = {
-			screenWidth: 0,
-			screenHeight: 0,
-			score: 0,
-			context: null,
-			objects: []
+			screenWidth: null,
+			screenHeight: null,
+			score: null,
+			context: null
 		};
 	}
 
@@ -37,19 +27,18 @@ class ReactPongApp extends Component {
 	}
 
 	start() {
-		let ball = new Ball({
-			collisionHandler: this.collisionHandler
+		this.ball = new Ball({
+			collisionHandler: (x, y, done) => {
+				this.collisionHandler(x, y, done);
+			}
 		});
 
-		let paddle1 = new Paddle({
+		this.paddle1 = new Paddle({
 			control: 'human'
 		});
 
 		this.setState({
-			score: 0,
-			ball: ball,
-			paddle1: paddle1
-			// paddle2: paddle2
+			score: 0
 		});
 
 		requestAnimationFrame(() => {
@@ -58,16 +47,23 @@ class ReactPongApp extends Component {
 	}
 
 	collisionHandler(x, y, done) {
-		let buffer = 15;
-		let paddle1Hit = 0 < x - buffer;
-		// let paddle2Hit = x + buffer < window.innerWidth;
-		let withinXBounds = 0 < x - buffer && x + buffer < window.innerWidth;
-		// let withinXBounds = paddle1Hit || paddle2Hit;
-		// let withinXBounds = paddle1Hit && x + buffer < window.innerWidth;
+		/*
+		1) hit upper wall -> bounce
+		2) hit lower wall -> bounce
+		3) hit paddle 1 -> bounce
+		4) hit paddle 2 -> bounce
+		5) hit left wall -> score
+		6) hit right wall -> score
+		*/
 
-		let withinYBounds = 0 < y - buffer && y + buffer < window.innerHeight;
+		let hitUpperWall = y < 0 + 10;
+		let hitLowerWall = y > window.innerHeight - 10;
+		let hitPaddle1;
+		let hitPaddle2;
+		let hitLeftWall = x < 0 + 10;
+		let hitRightWall = x > window.innerWidth - 10;
 
-		done(withinXBounds, withinYBounds);
+		done(hitUpperWall, hitLowerWall, hitPaddle1, hitPaddle2, hitLeftWall, hitRightWall);
 	}
 
 	update() {
@@ -78,9 +74,8 @@ class ReactPongApp extends Component {
 		context.fillRect(0, 0, this.state.screenWidth, this.state.screenHeight);
 		context.globalAlpha = 1;
 
-		this.state.ball.draw(this.state.context);
-		this.state.paddle1.draw(this.state.context);
-		// this.state.paddle2.draw(this.state.context);
+		this.ball.draw(this.state.context);
+		this.paddle1.draw(this.state.context);
 
 		requestAnimationFrame(() => {
 			this.update();
